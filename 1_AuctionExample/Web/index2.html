@@ -1,0 +1,161 @@
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f5f7;
+    }
+
+    .dashboard-header {
+      background-color: #4b2e83;
+      color: white;
+      padding: 20px;
+    }
+
+    .dashboard-header h3 {
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .dashboard-overview {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      width: 24%;
+    }
+
+    .card h4 {
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .card span {
+      display: block;
+      margin-top: 10px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .transactions {
+      margin-top: 30px;
+    }
+
+    .transactions h4 {
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .transactions table {
+      width: 100%;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .transactions table th, .transactions table td {
+      padding: 15px;
+      text-align: left;
+    }
+
+    .transactions table th {
+      background-color: #f7f7f7;
+      font-weight: 500;
+    }
+
+    .transactions table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .transactions table tr:nth-child(odd) {
+      background-color: #fff;
+    }
+
+    .lead {
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body onload="init()">
+  <div class="dashboard-header">
+    <h3>Car Auction Dapp Dashboard</h3>
+  </div>
+  
+  <div class="container">
+    <div class="dashboard-overview">
+      <div class="card">
+        <h4>Available Funds</h4>
+        <span id="car_brand">7295.71 SLING</span>
+      </div>
+      <div class="card">
+        <h4>Pending</h4>
+        <span id="registration_number">0.00000000 SLING</span>
+      </div>
+      <div class="card">
+        <h4>Staking</h4>
+        <span id="staking">35.71 SLING</span>
+      </div>
+      <div class="card">
+        <h4>Total</h4>
+        <span id="total">7331.42 SLING</span>
+      </div>
+    </div>
+    
+    <div class="transactions">
+      <h4>Recent Transactions</h4>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Label</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody id="transfers">
+          <tr>
+            <td>Complete</td>
+            <td>07/15/2015 08:30 AM</td>
+            <td>Received</td>
+            <td>SamiEA93DaDakK...</td>
+            <td>7,331.00</td>
+          </tr>
+          <tr>
+            <td>Complete</td>
+            <td>07/15/2015 04:21 AM</td>
+            <td>Received</td>
+            <td>SamiEA93DaDakK...</td>
+            <td>35.11</td>
+          </tr>
+          <tr>
+            <td>Complete</td>
+            <td>07/14/2015 11:27 PM</td>
+            <td>Received</td>
+            <td>SamiEA93DaDakK...</td>
+            <td>43,031.35</td>
+          </tr>
+          <tr>
+            <td>Complete</td>
+            <td>07/14/2015 04:20 AM</td>
+            <td>Received</td>
+            <td>SamiEA93DaDakK...</td>
+            <td>1,236.22</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

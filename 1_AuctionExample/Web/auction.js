@@ -1,5 +1,9 @@
+const alertMsg = (msg)=>{
+  alert(msg);
+};
 
-var web3 = new Web3('ws://localhost:7545');
+
+var web3 = new Web3('ws://localhost:8545');
  
 var bidder; 
 web3.eth.getAccounts().then(function(acc){
@@ -40,289 +44,289 @@ web3.eth.getAccounts().then(function(acc){
 }); // end of web3.eth.getAccounts()
 
 var auctionContract =  new web3.eth.Contract(
-[
-  {
-    "inputs": [],
-    "name": "bid",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_biddingTime",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "_owner",
-        "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "_brand",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "_Rnumber",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "highestBidder",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "highestBid",
-        "type": "uint256"
-      }
-    ],
-    "name": "BidEvent",
-    "type": "event"
-  },
-  {
-    "inputs": [],
-    "name": "cancel_auction",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "message",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "time",
-        "type": "uint256"
-      }
-    ],
-    "name": "CanceledEvent",
-    "type": "event"
-  },
-  {
-    "inputs": [],
-    "name": "deactivateAuction",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "enum Auction.auction_state",
-        "name": "newState",
-        "type": "uint8"
-      }
-    ],
-    "name": "StateUpdated",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "enum Auction.auction_state",
-        "name": "newState",
-        "type": "uint8"
-      }
-    ],
-    "name": "updateAuctionState",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "withdraw",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "withdrawer",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "WithdrawalEvent",
-    "type": "event"
-  },
-  {
-    "inputs": [],
-    "name": "withdrawRemainingFunds",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "auction_end",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "auction_start",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "bids",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "get_owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "highestBid",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "highestBidder",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "Mycar",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "Brand",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "Rnumber",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "STATE",
-    "outputs": [
-      {
-        "internalType": "enum Auction.auction_state",
-        "name": "",
-        "type": "uint8"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  }
-]
+  [
+    {
+      "inputs": [],
+      "name": "bid",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_biddingTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_brand",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_Rnumber",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "highestBidder",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "highestBid",
+          "type": "uint256"
+        }
+      ],
+      "name": "BidEvent",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "cancel_auction",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "message",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "time",
+          "type": "uint256"
+        }
+      ],
+      "name": "CanceledEvent",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "deactivateAuction",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "enum Auction.auction_state",
+          "name": "newState",
+          "type": "uint8"
+        }
+      ],
+      "name": "StateUpdated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum Auction.auction_state",
+          "name": "newState",
+          "type": "uint8"
+        }
+      ],
+      "name": "updateAuctionState",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "withdraw",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "withdrawer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "WithdrawalEvent",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "withdrawRemainingFunds",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "auction_end",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "auction_start",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "bids",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "get_owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "highestBid",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "highestBidder",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "Mycar",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "Brand",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "Rnumber",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "STATE",
+      "outputs": [
+        {
+          "internalType": "enum Auction.auction_state",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
   );
 
-auctionContract.options.address = '0x219Ecf875eF1eD0a8a9279a3C5B384744435b27d';
-var userWalletAddress = '0x6fE8CAc4F58d1aee746d11919D132E1B05ed3c13';
+auctionContract.options.address = '0xd61AAA6Fe4A77Bfcd293Db089A286805a7700981';
+var userWalletAddress = '0x2f151B7E00e678f347882E9270Ce342bc2B44FF8';
 function bid() {
   var mybid = document.getElementById('value').value;
 
@@ -331,8 +335,22 @@ function bid() {
 
     document.getElementById("biding_status").innerHTML="Successfull bid, transaction ID : "+ result.transactionHash; 
 
-    });
-  
+    }).catch((error) => {
+      const notEnoughMsg = "not_enough";
+      const currMaximum = "curr_maximum";
+      
+      if (error.message.includes(notEnoughMsg)) {
+          alert("현재 최고가 보다 낮은 금액을 입력하셨습니다.");
+      } else if (error.message.includes(currMaximum)) {
+          alert("입찰자 중 현재 최고 금액 입찰 중이십니다.");
+      } else {
+          alert("에러 발생 console 참고")
+          console.log(error.message);
+      }
+      
+      // alertMsg(error.msg)
+      document.getElementById("withdraw_status").innerHTML = "Withdraw failed: " + error.message;
+  });
 } 
 	
 
@@ -344,17 +362,14 @@ function init(){
    
 var auction_owner=null;
 auctionContract.methods.get_owner().call().then((result)=>{
-  
       auction_owner=result;
      if(bidder!=auction_owner)
      $("#auction_owner_operations").hide();
-
 })
   
   
   
 function cancel_auction(){
-
   auctionContract.methods.cancel_auction().send({from: userWalletAddress, gas: 200000}).then((res)=>{
   // auctionContract.methods.cancel_auction().call({from: '0x3211BA2b204cdb231EF5616ec3cAd26043b71394'}).then((res)=>{
   console.log(res);
@@ -368,7 +383,7 @@ function withdraw() {
         document.getElementById("withdraw_status").innerHTML = "Withdraw successful, transaction ID: " + result.transactionHash;
     })
     .catch((error) => {
-        console.error(error);
+        console.log(error);
         document.getElementById("withdraw_status").innerHTML = "Withdraw failed: " + error.message;
     });
 }
@@ -377,7 +392,6 @@ function withdraw() {
 
 function Destruct_auction(){
   
-
 }
   
 
