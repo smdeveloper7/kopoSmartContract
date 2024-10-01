@@ -1,440 +1,161 @@
-const alertMsg = (msg)=>{
+const alertMsg = (msg) => {
   alert(msg);
 };
 
+const web3 = new Web3('ws://localhost:7545');
 
-var web3 = new Web3('ws://localhost:8545');
- 
-var bidder; 
-web3.eth.getAccounts().then(function(acc){
-  console.log(acc)
-  web3.eth.defaultAccount = acc[0]
-  bidder = acc[0]
+let bidder;
+const userWalletAddress = '0x2f151B7E00e678f347882E9270Ce342bc2B44FF8';
 
-  auctionContract.methods.auction_end().call().then( (result)=>{
-    document.getElementById("auction_end").innerHTML=result;
-  });
-
-  auctionContract.methods.highestBidder().call().then( (result)=>{
-    document.getElementById("HighestBidder").innerHTML=result;
-  }); 
-      
-  auctionContract.methods.highestBid().call().then( (result)=>{
-    console.log("highest bid info: ", result)
-    var bidEther = web3.utils.fromWei(web3.utils.toBN(result), 'ether');
-    document.getElementById("HighestBid").innerHTML=bidEther;
-
-  }); 
-
-  auctionContract.methods.STATE().call().then( (result)=>{
-    document.getElementById("STATE").innerHTML=result;
-  }); 
-
-  auctionContract.methods.Mycar().call().then( (result)=>{
-      document.getElementById("car_brand").innerHTML=result[0];
-      document.getElementById("registration_number").innerHTML=result[1];
-  }); 
-
-  auctionContract.methods.bids(bidder).call().then( (result) => {
-      var bidEther = web3.utils.fromWei(web3.utils.toBN(result), 'ether');
-      document.getElementById("MyBid").innerHTML=bidEther;
-      console.log(bidder);
-   
-  }); 
-}); // end of web3.eth.getAccounts()
-
-var auctionContract =  new web3.eth.Contract(
-  [
-    {
-      "inputs": [],
-      "name": "bid",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_biddingTime",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "_owner",
-          "type": "address"
-        },
-        {
-          "internalType": "string",
-          "name": "_brand",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_Rnumber",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "highestBidder",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "highestBid",
-          "type": "uint256"
-        }
-      ],
-      "name": "BidEvent",
-      "type": "event"
-    },
-    {
-      "inputs": [],
-      "name": "cancel_auction",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "message",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "time",
-          "type": "uint256"
-        }
-      ],
-      "name": "CanceledEvent",
-      "type": "event"
-    },
-    {
-      "inputs": [],
-      "name": "deactivateAuction",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "enum Auction.auction_state",
-          "name": "newState",
-          "type": "uint8"
-        }
-      ],
-      "name": "StateUpdated",
-      "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "enum Auction.auction_state",
-          "name": "newState",
-          "type": "uint8"
-        }
-      ],
-      "name": "updateAuctionState",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "withdraw",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "withdrawer",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "WithdrawalEvent",
-      "type": "event"
-    },
-    {
-      "inputs": [],
-      "name": "withdrawRemainingFunds",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "auction_end",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "auction_start",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "bids",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "get_owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "highestBid",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "highestBidder",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "Mycar",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "Brand",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "Rnumber",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "STATE",
-      "outputs": [
-        {
-          "internalType": "enum Auction.auction_state",
-          "name": "",
-          "type": "uint8"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    }
-  ]
-  );
-
-auctionContract.options.address = '0xd61AAA6Fe4A77Bfcd293Db089A286805a7700981';
-var userWalletAddress = '0x2f151B7E00e678f347882E9270Ce342bc2B44FF8';
-function bid() {
-  var mybid = document.getElementById('value').value;
-
-  auctionContract.methods.bid().send({from: userWalletAddress, value: web3.utils.toWei(mybid, "ether"), gas: 200000}).then((result)=>{
-    console.log(result)
-
-    document.getElementById("biding_status").innerHTML="Successfull bid, transaction ID : "+ result.transactionHash; 
-
-    }).catch((error) => {
-      const notEnoughMsg = "not_enough";
-      const currMaximum = "curr_maximum";
-      
-      if (error.message.includes(notEnoughMsg)) {
-          alert("현재 최고가 보다 낮은 금액을 입력하셨습니다.");
-      } else if (error.message.includes(currMaximum)) {
-          alert("입찰자 중 현재 최고 금액 입찰 중이십니다.");
-      } else {
-          alert("에러 발생 console 참고")
-          console.log(error.message);
-      }
-      
-      // alertMsg(error.msg)
-      document.getElementById("withdraw_status").innerHTML = "Withdraw failed: " + error.message;
-  });
-} 
-	
-
-	
-function init(){
- // setTimeout(() => alert("아무런 일도 일어나지 않습니다."), 3000);
- 
-}
-   
-var auction_owner=null;
-auctionContract.methods.get_owner().call().then((result)=>{
-      auction_owner=result;
-     if(bidder!=auction_owner)
-     $("#auction_owner_operations").hide();
-})
-  
-  
-  
-function cancel_auction(){
-  auctionContract.methods.cancel_auction().send({from: userWalletAddress, gas: 200000}).then((res)=>{
-  // auctionContract.methods.cancel_auction().call({from: '0x3211BA2b204cdb231EF5616ec3cAd26043b71394'}).then((res)=>{
-  console.log(res);
-  }); 
+async function initializeAccount() {
+  try {
+    const accounts = await web3.eth.getAccounts();
+    console.log(accounts);
+    web3.eth.defaultAccount = userWalletAddress;
+    bidder = userWalletAddress;
+  } catch (error) {
+    console.error('Failed to initialize account:', error);
+  }
 }
 
-function withdraw() {
-    auctionContract.methods.withdraw().send({ from: userWalletAddress, gas: 200000 })
-    .then((result) => {
-        console.log(result);
-        document.getElementById("withdraw_status").innerHTML = "Withdraw successful, transaction ID: " + result.transactionHash;
-    })
-    .catch((error) => {
-        console.log(error);
-        document.getElementById("withdraw_status").innerHTML = "Withdraw failed: " + error.message;
+async function loadABI() {
+  try {
+    const response = await fetch('contractABI.json');
+    return await response.json();
+  } catch (error) {
+    console.error('Failed to load ABI:', error);
+    throw error;
+  }
+}
+
+function getContractIdFromURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const contractId = urlParams.get('contractId');
+  console.log(contractId ? `Contract ID: ${contractId}` : 'No contract ID found in the URL.');
+  return contractId;
+}
+
+async function initContract() {
+  const abi = await loadABI();
+  const contractId = getContractIdFromURL();
+  const defaultContractAddress = '0xd61AAA6Fe4A77Bfcd293Db089A286805a7700981';
+  const contractAddress = contractId || defaultContractAddress;
+  console.log('Contract initialized with address:', contractAddress);
+  return new web3.eth.Contract(abi, contractAddress);
+}
+
+async function updateAuctionInfo(auctionContract) {
+  try {
+    const [auctionEnd, highestBidder, highestBid, state, car] = await Promise.all([
+      auctionContract.methods.auction_end().call(),
+      auctionContract.methods.highestBidder().call(),
+      auctionContract.methods.highestBid().call(),
+      auctionContract.methods.STATE().call(),
+      auctionContract.methods.Mycar().call()
+    ]);
+
+    document.getElementById("auction_end").innerHTML = auctionEnd;
+    document.getElementById("HighestBidder").innerHTML = highestBidder;
+    document.getElementById("HighestBid").innerHTML = web3.utils.fromWei(highestBid, 'ether');
+    document.getElementById("STATE").innerHTML = state;
+    document.getElementById("car_brand").innerHTML = car[0];
+    document.getElementById("registration_number").innerHTML = car[1];
+
+    const myBid = await auctionContract.methods.bids(bidder).call();
+    document.getElementById("MyBid").innerHTML = web3.utils.fromWei(myBid, 'ether');
+  } catch (error) {
+    console.error('Failed to update auction info:', error);
+  }
+}
+
+async function bid(auctionContract) {
+  const mybid = document.getElementById('value').value;
+  try {
+    const result = await auctionContract.methods.bid().send({
+      from: userWalletAddress,
+      value: web3.utils.toWei(mybid, "ether"),
+      gas: 200000
     });
+    document.getElementById("biding_status").innerHTML = `Successful bid, transaction ID: ${result.transactionHash}`;
+  } catch (error) {
+    handleBidError(error);
+  }
 }
 
-
-
-function Destruct_auction(){
-  
+function handleBidError(error) {
+  if (error.message.includes("not_enough")) {
+    alert("현재 최고가 보다 낮은 금액을 입력하셨습니다.");
+  } else if (error.message.includes("curr_maximum")) {
+    alert("입찰자 중 현재 최고 금액 입찰 중이십니다.");
+  } else {
+    alert("에러 발생 console 참고");
+    console.error(error);
+  }
+  document.getElementById("biding_status").innerHTML = `Bid failed: ${error.message}`;
 }
-  
 
+async function cancel_auction(auctionContract) {
+  try {
+    const result = await auctionContract.methods.cancel_auction().send({ from: userWalletAddress, gas: 200000 });
+    console.log(result);
+  } catch (error) {
+    console.error('Failed to cancel auction:', error);
+  }
+}
 
-auctionContract.events.BidEvent(/*{highestBidder:"A",highestBid:"888"},*/function(error, event){ 
-      console.log(event); 
-  })
-  .on("connected", function(subscriptionId){
-      console.log(subscriptionId);
-  })
-  .on('data', function(event){
-      console.log(event); // same results as the optional callback above
-      $("#eventslog").html(event.returnValues.highestBidder + ' has bidden(' + event.returnValues.highestBid + ' wei)');
+async function withdraw(auctionContract) {
+  try {
+    const result = await auctionContract.methods.withdraw().send({ from: userWalletAddress, gas: 200000 });
+    document.getElementById("withdraw_status").innerHTML = `Withdraw successful, transaction ID: ${result.transactionHash}`;
+  } catch (error) {
+    console.error('Withdraw failed:', error);
+    document.getElementById("withdraw_status").innerHTML = `Withdraw failed: ${error.message}`;
+  }
+}
 
-  })
-  .on('changed', function(event){
-      // remove event from local database
-      console.log(event);
-  })
-  
-auctionContract.events.CanceledEvent( function(error, event){ 
-  console.log(event); 
-  })
-  .on("connected", function(subscriptionId){
-      console.log(subscriptionId);
-  })
-  .on('data', function(event){
-      console.log(event); // same results as the optional callback above
-   $("#eventslog").html(event.returnValues.message+' at '+event.returnValues.time);
-  })
-  .on('changed', function(event){
-      // remove event from local database
-  })
-  .on('error', function(error, receipt){ // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
-   
-  })
+function setupEventListeners(auctionContract) {
+  auctionContract.events.BidEvent()
+    .on("connected", (subscriptionId) => console.log(subscriptionId))
+    .on('data', (event) => {
+      $("#eventslog").html(`${event.returnValues.highestBidder} has bid (${event.returnValues.highestBid} wei)`);
+    })
+    .on('error', console.error);
 
-auctionContract.events.WithdrawalEvent({}, function(error, event) {
-    if (error) {
-        console.error(error);
-    } else {
-        document.getElementById("STATE").innerHTML = event.returnValues.newState;
-        console.log("Auction state updated: ", event.returnValues.newState);
+  auctionContract.events.CanceledEvent()
+    .on("connected", (subscriptionId) => console.log(subscriptionId))
+    .on('data', (event) => {
+      $("#eventslog").html(`${event.returnValues.message} at ${event.returnValues.time}`);
+    })
+    .on('error', console.error);
+
+  auctionContract.events.WithdrawalEvent()
+    .on('data', (event) => {
+      document.getElementById("STATE").innerHTML = event.returnValues.newState;
+      console.log("Auction state updated: ", event.returnValues.newState);
+    })
+    .on('error', console.error);
+}
+
+async function init() {
+  try {
+    await initializeAccount();
+    const auctionContract = await initContract();
+    await updateAuctionInfo(auctionContract);
+
+    const auction_owner = await auctionContract.methods.get_owner().call();
+    if (bidder !== auction_owner) {
+      $("#auction_owner_operations").hide();
     }
-})
 
+    setupEventListeners(auctionContract);
+
+    // Attach event handlers
+    document.getElementById('bidButton').addEventListener('click', () => bid(auctionContract));
+    document.getElementById('cancelButton').addEventListener('click', () => cancel_auction(auctionContract));
+    document.getElementById('withdrawButton').addEventListener('click', () => withdraw(auctionContract));
+  } catch (error) {
+    console.error('Initialization failed:', error);
+  }
+}
+
+init();

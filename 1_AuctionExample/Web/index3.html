@@ -1,0 +1,88 @@
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@3.0.0/dist/web3.min.js"></script>
+<script src="./auction.js"></script>
+<!-- Linking the external CSS file -->
+<link rel="stylesheet" href="style.css">
+</head>
+<body onload="init()">
+    <div class="col-lg-12">
+        <div class="page-header">
+            <h3>Car Auction Dapp</h3>
+        </div>
+
+        <!-- Wallet Selection -->
+        <div class="wallet-selection">
+            <label class="lead">Select Wallet: </label>
+            <select id="wallet_select" class="form-control">
+                <option value="wallet1">Wallet 1 - 0x123...</option>
+                <option value="wallet2">Wallet 2 - 0x456...</option>
+                <option value="wallet3">Wallet 3 - 0x789...</option>
+            </select>
+        </div>
+
+        <!-- Auction Status -->
+        <div class="auction-status well">
+            <h4>Auction Current Status</h4>
+            <div id="current_auction_status" class="status-box">
+                <p>Status: <text id="auction_current_state">Active</text></p>
+                <p>Time Remaining: <text id="time_remaining">2h 30m</text></p>
+            </div>
+        </div>
+
+        <!-- Car and Bid Section -->
+        <div class="col-lg-6">
+            <div class="well">                 
+                <legend class="lead">Car Details</legend>
+                <label class="lead"> Brand: </label><text id='car_brand'></text><br>
+                <label class="lead">Registration Number: </label><text id='registration_number'></text>
+
+                <legend class="lead">Bid value</legend>
+                <small>eg. 100</small>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="value" value="10" ></input>
+                    <text id="valueValidation"></text>
+                </div>
+
+                <div>
+                    <button class="btn btn-default" id="transfer" type="button" onClick="bid()">Bid!</button><br>
+                    <text id="biding_status"></text>					
+                </div>
+            </div> 
+        </div>		
+
+        <!-- Auction Details Section -->
+        <div class="col-lg-6">
+            <div class="well">
+                <legend class="lead">Auction Details</legend>
+                <ul id='transfers'>
+                    <li><label class="lead">Auction End: </label> <text id="auction_end"></text></li>
+                    <li><label class="lead">Auction Highest Bid: </label> <text id="HighestBid"></text></li>
+                    <li><label class="lead">My Bid: </label> <text id="MyBid"></text></li>
+                    <li><label class="lead">Auction Highest Bidder: </label> <text id="HighestBidder"></text></li>
+                    <li><label class="lead">Auction Status: </label> <text id="STATE"></text></li>					
+                </ul>
+                <br>
+                <legend class="lead">Events Logs</legend>
+                <text id="eventslog"></text>
+            </div>
+        </div>    
+
+        <!-- Auction Owner Operations Section -->
+        <div class="col-lg-6" id="auction_owner_operations">
+            <div class="well">
+                <legend class="lead">Auction Operations</legend>
+                <button class="btn btn-default" id="transfer" type="button" onClick="cancel_auction()">Cancel auction!</button>
+                <div>
+                    <legend class="lead">Withdrawal</legend>
+                    <button class="btn btn-default" id="withdraw" type="button" onClick="withdraw()">Withdraw Funds</button><br>
+                    <text id="withdraw_status"></text>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
