@@ -5,7 +5,7 @@ const alertMsg = (msg) => {
 const web3 = new Web3('ws://localhost:7545');
 
 let bidder;
-const userWalletAddress = '0x2f151B7E00e678f347882E9270Ce342bc2B44FF8';
+const userWalletAddress = '0xDcA5295148C8178aaF99bb9A475b842a779663FE';
 
 async function initializeAccount() {
   try {
@@ -150,9 +150,10 @@ async function init() {
     setupEventListeners(auctionContract);
 
     // Attach event handlers
-    document.getElementById('bidButton').addEventListener('click', () => bid(auctionContract));
-    document.getElementById('cancelButton').addEventListener('click', () => cancel_auction(auctionContract));
-    document.getElementById('withdrawButton').addEventListener('click', () => withdraw(auctionContract));
+    console.log(55);
+    document.getElementById('btn_bid').addEventListener('click', () => bid(auctionContract));
+    // document.getElementById('cancelButton').addEventListener('click', () => cancel_auction(auctionContract));
+    document.getElementById('btn_withdraw').addEventListener('click', () => withdraw(auctionContract));
   } catch (error) {
     console.error('Initialization failed:', error);
   }
