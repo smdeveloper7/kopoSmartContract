@@ -1,10 +1,12 @@
+const alertMsg = (msg) => {
+  alert(msg);
+};
 
 const web3 = new Web3('ws://localhost:7545');
 
 let bidder;
 const userWalletAddress = '0xDcA5295148C8178aaF99bb9A475b842a779663FE';
 
-// 계좌 설정
 async function initializeAccount() {
   try {
     const accounts = await web3.eth.getAccounts();
@@ -15,7 +17,7 @@ async function initializeAccount() {
     console.error('Failed to initialize account:', error);
   }
 }
-//abi 로드
+
 async function loadABI() {
   try {
     const response = await fetch('contractABI.json');
@@ -25,7 +27,7 @@ async function loadABI() {
     throw error;
   }
 }
-//url 파싱 => 계약서 불러오기
+
 function getContractIdFromURL() {
   const urlParams = new URLSearchParams(window.location.search);
   const contractId = urlParams.get('contractId');
@@ -142,7 +144,6 @@ async function init() {
 
     const auction_owner = await auctionContract.methods.get_owner().call();
     if (bidder !== auction_owner) {
-      // $(".auction_owner_auth").hide(); // 경매소유주 권한을 가진사람만 할수있는것들(취소)
       $("#auction_owner_operations").hide();
     }
 
